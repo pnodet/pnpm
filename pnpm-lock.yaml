@@ -2245,6 +2245,9 @@ importers:
       '@pnpm/core-loggers':
         specifier: workspace:*
         version: link:../../core/core-loggers
+      '@pnpm/deps.inspection.peers-issues-renderer':
+        specifier: workspace:*
+        version: link:../../deps/inspection/peers-issues-renderer
       '@pnpm/error':
         specifier: workspace:*
         version: link:../../core/error
@@ -3351,6 +3354,9 @@ importers:
       '@pnpm/deps.inspection.peers-checker':
         specifier: workspace:*
         version: link:../peers-checker
+      '@pnpm/deps.inspection.peers-issues-renderer':
+        specifier: workspace:*
+        version: link:../peers-issues-renderer
       '@pnpm/error':
         specifier: workspace:*
         version: link:../../../core/error
@@ -3619,6 +3625,22 @@ importers:
       '@types/semver':
         specifier: 'catalog:'
         version: 7.7.1
+
+  deps/inspection/peers-issues-renderer:
+    dependencies:
+      '@pnpm/types':
+        specifier: workspace:*
+        version: link:../../../core/types
+      chalk:
+        specifier: 'catalog:'
+        version: 5.6.2
+    devDependencies:
+      '@jest/globals':
+        specifier: 'catalog:'
+        version: 30.3.0
+      '@pnpm/deps.inspection.peers-issues-renderer':
+        specifier: workspace:*
+        version: 'link:'
 
   deps/inspection/tree-builder:
     dependencies:
