@@ -1,5 +1,13 @@
 # @pnpm/prepare
 
+## 1100.0.7
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/types@1101.1.0
+  - @pnpm/assert-project@1100.0.7
+
 ## 1100.0.6
 
 ### Patch Changes

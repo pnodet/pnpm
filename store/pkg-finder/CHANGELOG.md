@@ -1,5 +1,13 @@
 # @pnpm/store.pkg-finder
 
+## 1100.0.8
+
+### Patch Changes
+
+- @pnpm/fetching.directory-fetcher@1100.0.8
+- @pnpm/resolving.resolver-base@1100.1.3
+- @pnpm/store.cafs@1100.1.3
+
 ## 1100.0.7
 
 ### Patch Changes

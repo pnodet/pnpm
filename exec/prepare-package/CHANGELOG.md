@@ -1,5 +1,14 @@
 # @pnpm/prepare-package
 
+## 1100.0.8
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/types@1101.1.0
+  - @pnpm/exec.lifecycle@1100.0.8
+  - @pnpm/pkg-manifest.reader@1100.0.3
+
 ## 1100.0.7
 
 ### Patch Changes

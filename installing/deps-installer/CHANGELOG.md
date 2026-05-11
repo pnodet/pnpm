@@ -1,5 +1,62 @@
 # @pnpm/core
 
+## 1101.1.0
+
+### Minor Changes
+
+- e1e29c1: Add `--no-runtime` flag (config: `runtime=false`) to skip installing runtime entries (e.g. Node.js downloaded via `devEngines.runtime`) without modifying the lockfile. The lockfile keeps the runtime entry so frozen-lockfile validation still passes; only the runtime fetch and `.bin` linking are skipped. Useful in CI matrices where the runtime is provisioned externally (e.g. via `pnpm runtime -g set node <version>`) before `pnpm install` runs.
+
+### Patch Changes
+
+- 4b25a3d: `pnpm add -g` now installs each space-separated package into its own isolated directory by default. To bundle multiple packages into the same isolated install (so that they share dependencies and are removed together), pass them as a comma-separated list. For example:
+
+  - `pnpm add -g foo bar` installs `foo` and `bar` as two independent globals — removing one does not affect the other.
+  - `pnpm add -g foo,bar qar` bundles `foo` and `bar` into a single isolated install while `qar` is installed on its own.
+
+  Related: [#11587](https://github.com/pnpm/pnpm/issues/11587).
+
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/types@1101.1.0
+  - @pnpm/lockfile.filtering@1100.1.0
+  - @pnpm/installing.linking.modules-cleaner@1100.1.0
+  - @pnpm/installing.deps-restorer@1101.1.0
+  - @pnpm/building.after-install@1101.0.10
+  - @pnpm/building.during-install@1101.0.8
+  - @pnpm/installing.deps-resolver@1100.0.9
+  - @pnpm/agent.client@1.0.4
+  - @pnpm/bins.linker@1100.0.4
+  - @pnpm/bins.remover@1100.0.3
+  - @pnpm/building.policy@1100.0.4
+  - @pnpm/config.normalize-registries@1100.0.3
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/deps.graph-hasher@1100.1.5
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/exec.lifecycle@1100.0.8
+  - @pnpm/fs.symlink-dependency@1100.0.3
+  - @pnpm/hooks.read-package-hook@1100.0.3
+  - @pnpm/hooks.types@1100.0.6
+  - @pnpm/installing.context@1100.0.9
+  - @pnpm/installing.linking.hoist@1100.0.4
+  - @pnpm/installing.modules-yaml@1100.0.4
+  - @pnpm/installing.package-requester@1101.0.5
+  - @pnpm/lockfile.fs@1100.0.7
+  - @pnpm/lockfile.preferred-versions@1100.0.8
+  - @pnpm/lockfile.pruner@1100.0.5
+  - @pnpm/lockfile.to-pnp@1100.0.7
+  - @pnpm/lockfile.utils@1100.0.7
+  - @pnpm/lockfile.verification@1100.0.9
+  - @pnpm/lockfile.walker@1100.0.5
+  - @pnpm/pkg-manifest.utils@1100.1.2
+  - @pnpm/resolving.resolver-base@1100.1.3
+  - @pnpm/store.controller-types@1100.0.6
+  - @pnpm/worker@1100.1.4
+  - @pnpm/workspace.project-manifest-reader@1100.0.4
+  - @pnpm/crypto.hash@1100.0.1
+  - @pnpm/lockfile.settings-checker@1100.0.9
+  - @pnpm/installing.linking.direct-dep-linker@1100.0.3
+  - @pnpm/patching.config@1100.0.3
+
 ## 1101.0.9
 
 ### Patch Changes

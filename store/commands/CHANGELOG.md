@@ -1,5 +1,25 @@
 # @pnpm/store.commands
 
+## 1100.0.14
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/store.connection-manager@1100.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/installing.client@1100.0.13
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/config.normalize-registries@1100.0.3
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/global.packages@1100.0.3
+  - @pnpm/installing.context@1100.0.9
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/lockfile.utils@1100.0.7
+  - @pnpm/store.cafs@1100.1.3
+  - @pnpm/store.controller-types@1100.0.6
+
 ## 1100.0.13
 
 ### Patch Changes

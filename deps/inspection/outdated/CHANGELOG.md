@@ -1,5 +1,21 @@
 # @pnpm/outdated
 
+## 1100.0.13
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/resolving.npm-resolver@1101.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/installing.client@1100.0.13
+  - @pnpm/config.pick-registry-for-package@1100.0.3
+  - @pnpm/config.version-policy@1100.0.3
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/hooks.read-package-hook@1100.0.3
+  - @pnpm/lockfile.fs@1100.0.7
+  - @pnpm/lockfile.utils@1100.0.7
+  - @pnpm/pkg-manifest.utils@1100.1.2
+
 ## 1100.0.12
 
 ### Patch Changes

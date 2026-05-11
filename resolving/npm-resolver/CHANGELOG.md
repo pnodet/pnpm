@@ -1,5 +1,34 @@
 # @pnpm/npm-resolver
 
+## 1101.1.0
+
+### Minor Changes
+
+- b61e268: Added support for installing packages from the [GitHub Packages npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry) via a built-in `gh:` prefix (e.g. `pnpm add gh:@acme/private`), and, more broadly, for arbitrary named registries in the style of [vlt's named-registry aliases](https://docs.vlt.sh/cli/registries). Authentication is picked up from the existing per-URL `.npmrc` entries (e.g. `//npm.pkg.github.com/:_authToken=...`), so no separate auth mechanism is required.
+
+  Additional aliases — or an override for the built-in `gh` alias, for GitHub Enterprise Server — can be configured under `namedRegistries` in `pnpm-workspace.yaml`:
+
+  ```yaml
+  namedRegistries:
+    gh: https://npm.pkg.github.example.com/
+    work: https://npm.work.example.com/
+  ```
+
+  With this, `work:@corp/lib@^2.0.0` resolves against `https://npm.work.example.com/`. [#8941](https://github.com/pnpm/pnpm/issues/8941).
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/types@1101.1.0
+  - @pnpm/config.pick-registry-for-package@1100.0.3
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/resolving.registry.types@1100.0.3
+  - @pnpm/resolving.resolver-base@1100.1.3
+  - @pnpm/store.cafs@1100.1.3
+  - @pnpm/worker@1100.1.4
+  - @pnpm/crypto.hash@1100.0.1
+  - @pnpm/resolving.registry.pkg-metadata-filter@1100.0.3
+
 ## 1101.0.3
 
 ### Patch Changes

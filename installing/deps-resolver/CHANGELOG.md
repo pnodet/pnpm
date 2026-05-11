@@ -1,5 +1,28 @@
 # @pnpm/resolve-dependencies
 
+## 1100.0.9
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/resolving.npm-resolver@1101.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/fetching.pick-fetcher@1100.0.6
+  - @pnpm/config.version-policy@1100.0.3
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/deps.graph-hasher@1100.1.5
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/hooks.types@1100.0.6
+  - @pnpm/lockfile.preferred-versions@1100.0.8
+  - @pnpm/lockfile.pruner@1100.0.5
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/lockfile.utils@1100.0.7
+  - @pnpm/pkg-manifest.reader@1100.0.3
+  - @pnpm/pkg-manifest.utils@1100.1.2
+  - @pnpm/resolving.resolver-base@1100.1.3
+  - @pnpm/store.controller-types@1100.0.6
+  - @pnpm/patching.config@1100.0.3
+
 ## 1100.0.8
 
 ### Patch Changes

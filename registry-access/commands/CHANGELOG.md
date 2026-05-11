@@ -1,5 +1,21 @@
 # @pnpm/registry-access.commands
 
+## 1100.2.10
+
+### Patch Changes
+
+- 601317e: Added `pnpm owner` command to manage package owners on the registry.
+- Updated dependencies [20e7aff]
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/network.fetch@1100.0.3
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/config.pick-registry-for-package@1100.0.3
+  - @pnpm/network.auth-header@1100.0.2
+  - @pnpm/resolving.registry.types@1100.0.3
+
 ## 1100.2.9
 
 ### Patch Changes

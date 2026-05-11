@@ -1,5 +1,13 @@
 # @pnpm/git-resolver
 
+## 1100.0.6
+
+### Patch Changes
+
+- Updated dependencies [20e7aff]
+  - @pnpm/network.fetch@1100.0.3
+  - @pnpm/resolving.resolver-base@1100.1.3
+
 ## 1100.0.5
 
 ### Patch Changes

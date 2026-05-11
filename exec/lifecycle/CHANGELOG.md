@@ -1,5 +1,18 @@
 # @pnpm/lifecycle
 
+## 1100.0.8
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/types@1101.1.0
+  - @pnpm/bins.linker@1100.0.4
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/fetching.directory-fetcher@1100.0.8
+  - @pnpm/pkg-manifest.reader@1100.0.3
+  - @pnpm/store.cafs-types@1100.0.1
+  - @pnpm/store.controller-types@1100.0.6
+
 ## 1100.0.7
 
 ### Patch Changes

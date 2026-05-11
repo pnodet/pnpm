@@ -1,5 +1,35 @@
 # @pnpm/releasing.commands
 
+## 1100.2.12
+
+### Patch Changes
+
+- 20e7aff: `pnpm publish` now honors the configured HTTP/HTTPS proxy (including `https_proxy`/`http_proxy`/`no_proxy` environment variables) when polling the registry's `doneUrl` during the web-based authentication flow. Previously the poll bypassed the proxy, causing the registry to respond `403` from a different source IP and the login to never complete [#11561](https://github.com/pnpm/pnpm/issues/11561).
+- Updated dependencies [20e7aff]
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+- Updated dependencies [a575dd2]
+  - @pnpm/network.fetch@1100.0.3
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/installing.commands@1100.2.0
+  - @pnpm/engine.runtime.commands@1100.0.13
+  - @pnpm/engine.runtime.node-resolver@1101.0.7
+  - @pnpm/installing.client@1100.0.13
+  - @pnpm/bins.resolver@1100.0.3
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/config.pick-registry-for-package@1100.0.3
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/exec.lifecycle@1100.0.8
+  - @pnpm/fetching.directory-fetcher@1100.0.8
+  - @pnpm/lockfile.fs@1100.0.7
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/releasing.exportable-manifest@1100.0.4
+  - @pnpm/resolving.resolver-base@1100.1.3
+  - @pnpm/workspace.projects-filter@1100.0.10
+  - @pnpm/workspace.projects-sorter@1100.0.2
+  - @pnpm/fs.indexed-pkg-importer@1100.0.6
+
 ## 1100.2.11
 
 ### Patch Changes

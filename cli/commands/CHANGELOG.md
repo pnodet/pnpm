@@ -1,5 +1,16 @@
 # @pnpm/cli.commands
 
+## 1100.0.11
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/workspace.projects-reader@1101.0.3
+  - @pnpm/workspace.workspace-manifest-reader@1100.0.3
+
 ## 1100.0.10
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @pnpm/pnpmfile
 
+## 1100.0.7
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/types@1101.1.0
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/hooks.types@1100.0.6
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/store.controller-types@1100.0.6
+  - @pnpm/crypto.hash@1100.0.1
+
 ## 1100.0.6
 
 ### Patch Changes

@@ -1,5 +1,46 @@
 # @pnpm/plugin-commands-installation
 
+## 1100.2.0
+
+### Minor Changes
+
+- e1e29c1: Add `--no-runtime` flag (config: `runtime=false`) to skip installing runtime entries (e.g. Node.js downloaded via `devEngines.runtime`) without modifying the lockfile. The lockfile keeps the runtime entry so frozen-lockfile validation still passes; only the runtime fetch and `.bin` linking are skipped. Useful in CI matrices where the runtime is provisioned externally (e.g. via `pnpm runtime -g set node <version>`) before `pnpm install` runs.
+
+### Patch Changes
+
+- Updated dependencies [4b25a3d]
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/global.commands@1100.0.15
+  - @pnpm/installing.deps-installer@1101.1.0
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/store.connection-manager@1100.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/installing.env-installer@1101.0.8
+  - @pnpm/building.after-install@1101.0.10
+  - @pnpm/deps.status@1100.0.13
+  - @pnpm/workspace.state@1100.0.11
+  - @pnpm/deps.inspection.outdated@1100.0.13
+  - @pnpm/workspace.projects-graph@1100.0.7
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/config.pick-registry-for-package@1100.0.3
+  - @pnpm/config.writer@1100.0.7
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/hooks.pnpmfile@1100.0.7
+  - @pnpm/installing.context@1100.0.9
+  - @pnpm/installing.dedupe.check@1100.0.5
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/pkg-manifest.reader@1100.0.3
+  - @pnpm/pkg-manifest.utils@1100.1.2
+  - @pnpm/resolving.resolver-base@1100.1.3
+  - @pnpm/store.controller@1101.0.5
+  - @pnpm/workspace.project-manifest-reader@1100.0.4
+  - @pnpm/workspace.project-manifest-writer@1100.0.3
+  - @pnpm/workspace.projects-filter@1100.0.10
+  - @pnpm/workspace.projects-reader@1101.0.3
+  - @pnpm/workspace.projects-sorter@1100.0.2
+  - @pnpm/workspace.workspace-manifest-writer@1100.0.7
+
 ## 1100.1.12
 
 ### Patch Changes

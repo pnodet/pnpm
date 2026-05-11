@@ -1,5 +1,32 @@
 # @pnpm/building.after-install
 
+## 1101.0.10
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/store.connection-manager@1100.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/bins.linker@1100.0.4
+  - @pnpm/building.pkg-requires-build@1100.0.3
+  - @pnpm/building.policy@1100.0.4
+  - @pnpm/config.normalize-registries@1100.0.3
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/deps.graph-hasher@1100.1.5
+  - @pnpm/deps.path@1100.0.3
+  - @pnpm/exec.lifecycle@1100.0.8
+  - @pnpm/installing.context@1100.0.9
+  - @pnpm/installing.modules-yaml@1100.0.4
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/lockfile.utils@1100.0.7
+  - @pnpm/lockfile.walker@1100.0.5
+  - @pnpm/pkg-manifest.reader@1100.0.3
+  - @pnpm/store.cafs@1100.1.3
+  - @pnpm/store.controller-types@1100.0.6
+  - @pnpm/worker@1100.1.4
+
 ## 1101.0.9
 
 ### Patch Changes

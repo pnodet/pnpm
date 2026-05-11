@@ -1,5 +1,35 @@
 # @pnpm/default-resolver
 
+## 1100.1.0
+
+### Minor Changes
+
+- b61e268: Added support for installing packages from the [GitHub Packages npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry) via a built-in `gh:` prefix (e.g. `pnpm add gh:@acme/private`), and, more broadly, for arbitrary named registries in the style of [vlt's named-registry aliases](https://docs.vlt.sh/cli/registries). Authentication is picked up from the existing per-URL `.npmrc` entries (e.g. `//npm.pkg.github.com/:_authToken=...`), so no separate auth mechanism is required.
+
+  Additional aliases — or an override for the built-in `gh` alias, for GitHub Enterprise Server — can be configured under `namedRegistries` in `pnpm-workspace.yaml`:
+
+  ```yaml
+  namedRegistries:
+    gh: https://npm.pkg.github.example.com/
+    work: https://npm.work.example.com/
+  ```
+
+  With this, `work:@corp/lib@^2.0.0` resolves against `https://npm.work.example.com/`. [#8941](https://github.com/pnpm/pnpm/issues/8941).
+
+### Patch Changes
+
+- Updated dependencies [b61e268]
+  - @pnpm/resolving.npm-resolver@1101.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/engine.runtime.node-resolver@1101.0.7
+  - @pnpm/resolving.git-resolver@1100.0.6
+  - @pnpm/resolving.tarball-resolver@1100.0.5
+  - @pnpm/engine.runtime.bun-resolver@1101.0.5
+  - @pnpm/engine.runtime.deno-resolver@1101.0.5
+  - @pnpm/hooks.types@1100.0.6
+  - @pnpm/resolving.local-resolver@1100.0.6
+  - @pnpm/resolving.resolver-base@1100.1.3
+
 ## 1100.0.11
 
 ### Patch Changes

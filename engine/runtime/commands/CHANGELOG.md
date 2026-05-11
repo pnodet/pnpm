@@ -1,5 +1,18 @@
 # @pnpm/engine.runtime.commands
 
+## 1100.0.13
+
+### Patch Changes
+
+- a575dd2: `pnpm runtime set <name> <version>` no longer fails in the root of a multi-package workspace with the `ADDING_TO_ROOT` error. Installing the workspace root is a valid target for a runtime, so the command now bypasses that safety check.
+- Updated dependencies [20e7aff]
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/network.fetch@1100.0.3
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/engine.runtime.node-resolver@1101.0.7
+  - @pnpm/cli.utils@1101.0.3
+
 ## 1100.0.12
 
 ### Patch Changes

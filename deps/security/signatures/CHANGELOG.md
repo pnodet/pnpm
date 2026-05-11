@@ -1,0 +1,12 @@
+# @pnpm/deps.security.signatures
+
+## 1101.1.0
+
+### Minor Changes
+
+- 6ac06cb: Added `pnpm audit signatures` to verify ECDSA registry signatures for installed packages against keys from `/-/npm/v1/keys` [#7909](https://github.com/pnpm/pnpm/issues/7909). Scoped registries are respected, and registries without signing keys are skipped.
+
+### Patch Changes
+
+- Updated dependencies [20e7aff]
+  - @pnpm/network.fetch@1100.0.3

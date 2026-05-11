@@ -1,5 +1,35 @@
 # @pnpm/deps.compliance.commands
 
+## 1101.2.0
+
+### Minor Changes
+
+- 6ac06cb: Added `pnpm audit signatures` to verify ECDSA registry signatures for installed packages against keys from `/-/npm/v1/keys` [#7909](https://github.com/pnpm/pnpm/issues/7909). Scoped registries are respected, and registries without signing keys are skipped.
+
+### Patch Changes
+
+- Updated dependencies [6ac06cb]
+- Updated dependencies [b61e268]
+- Updated dependencies [87b4bac]
+- Updated dependencies [e1e29c1]
+  - @pnpm/deps.security.signatures@1101.1.0
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/deps.compliance.sbom@1100.1.0
+  - @pnpm/installing.commands@1100.2.0
+  - @pnpm/deps.compliance.audit@1101.0.6
+  - @pnpm/cli.meta@1100.0.3
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/config.pick-registry-for-package@1100.0.3
+  - @pnpm/config.writer@1100.0.7
+  - @pnpm/deps.compliance.license-scanner@1100.0.10
+  - @pnpm/lockfile.fs@1100.0.7
+  - @pnpm/lockfile.types@1100.0.5
+  - @pnpm/lockfile.utils@1100.0.7
+  - @pnpm/lockfile.walker@1100.0.5
+  - @pnpm/network.auth-header@1100.0.2
+  - @pnpm/workspace.project-manifest-reader@1100.0.4
+
 ## 1101.1.11
 
 ### Patch Changes

@@ -1,5 +1,32 @@
 # @pnpm/global.commands
 
+## 1100.0.15
+
+### Patch Changes
+
+- 4b25a3d: `pnpm add -g` now installs each space-separated package into its own isolated directory by default. To bundle multiple packages into the same isolated install (so that they share dependencies and are removed together), pass them as a comma-separated list. For example:
+
+  - `pnpm add -g foo bar` installs `foo` and `bar` as two independent globals — removing one does not affect the other.
+  - `pnpm add -g foo,bar qar` bundles `foo` and `bar` into a single isolated install while `qar` is installed on its own.
+
+  Related: [#11587](https://github.com/pnpm/pnpm/issues/11587).
+
+- Updated dependencies [4b25a3d]
+- Updated dependencies [b61e268]
+- Updated dependencies [e1e29c1]
+  - @pnpm/installing.deps-installer@1101.1.0
+  - @pnpm/config.reader@1101.3.0
+  - @pnpm/store.connection-manager@1100.1.0
+  - @pnpm/types@1101.1.0
+  - @pnpm/bins.linker@1100.0.4
+  - @pnpm/bins.remover@1100.0.3
+  - @pnpm/bins.resolver@1100.0.3
+  - @pnpm/cli.utils@1101.0.3
+  - @pnpm/core-loggers@1100.0.2
+  - @pnpm/deps.inspection.list@1100.0.9
+  - @pnpm/global.packages@1100.0.3
+  - @pnpm/pkg-manifest.reader@1100.0.3
+
 ## 1100.0.14
 
 ### Patch Changes
