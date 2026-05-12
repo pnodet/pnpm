@@ -19,14 +19,12 @@ jobs:
       with:
         token: ${{ secrets.UPDATE_LOCKFILE_TOKEN }}
 
+    # The job deletes the lockfile and regenerates it with `--lockfile-only`,
+    # so skip the action's auto-install — it would just be wasted work.
     - name: Install pnpm
-      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
+      uses: pnpm/setup@b1cac37306e39c21283b9dd6cb0ac288fb35ba6b
       with:
-        standalone: true
-
-    - name: Setup Node
-      run: pnpm runtime -g set node 24.6.0
-      timeout-minutes: 2
+        install: false
 
     - name: Update lockfile
       run: |
