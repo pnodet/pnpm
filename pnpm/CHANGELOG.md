@@ -1,5 +1,13 @@
 # pnpm
 
+## 11.1.1
+
+### Patch Changes
+
+- Skip installability validation when scanning workspace projects in `checkDepsStatus` (run by `verifyDepsBeforeRun`). Previously the status check called `findWorkspaceProjects`, which validates each project's `engines` and `os`/`cpu`/`libc` and warns about useless fields in non-root manifests — work that the install pipeline already performs. With no `nodeVersion` threaded through, the engine check also fell back to the system Node from `PATH` and emitted spurious "Unsupported engine" warnings before scripts ran. Status-only callers now use `findWorkspaceProjectsNoCheck`; install paths continue to validate.
+- Fixed `pnpm add <alias>:@scope/pkg` for [named registries](https://github.com/pnpm/pnpm/pull/11324). The local resolver was claiming any specifier containing `/` as a local directory, so `pnpm add bit:@teambit/bit` (with `bit` configured under `namedRegistries`) installed a bogus link to `bit:@teambit/bit/` instead of resolving from the configured registry. The local resolver now runs after the named-registry resolver in the resolution chain.
+- Updated `@zkochan/cmd-shim` to 9.0.3. The sh shim it writes for `.cmd` / `.bat` targets now escapes the `/C` switch as `//C`, so it survives the path translation Git Bash applies when launching `cmd.exe`. Without this, a bare `/C` was rewritten to `C:\` before reaching cmd.exe — the switch was dropped, cmd started interactively, and the calling script saw the cmd banner instead of the wrapped command's output. Affects any cmd-shim-wrapped batch script invoked from Git Bash / MSYS / Cygwin on Windows. See [pnpm/cmd-shim#55](https://github.com/pnpm/cmd-shim/pull/55).
+
 ## 11.1.0
 
 ### Minor Changes

@@ -1,5 +1,13 @@
 # @pnpm/default-resolver
 
+## 1100.1.1
+
+### Patch Changes
+
+- 3ab403a: Fixed `pnpm add <alias>:@scope/pkg` for [named registries](https://github.com/pnpm/pnpm/pull/11324). The local resolver was claiming any specifier containing `/` as a local directory, so `pnpm add bit:@teambit/bit` (with `bit` configured under `namedRegistries`) installed a bogus link to `bit:@teambit/bit/` instead of resolving from the configured registry. The local resolver now runs after the named-registry resolver in the resolution chain.
+- Updated dependencies [3ab403a]
+  - @pnpm/resolving.local-resolver@1101.0.0
+
 ## 1100.1.0
 
 ### Minor Changes

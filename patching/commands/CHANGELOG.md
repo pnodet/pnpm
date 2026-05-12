@@ -1,5 +1,13 @@
 # @pnpm/plugin-commands-patching
 
+## 1100.0.16
+
+### Patch Changes
+
+- @pnpm/installing.commands@1100.2.1
+- @pnpm/store.connection-manager@1100.1.1
+- @pnpm/fetching.pick-fetcher@1100.0.6
+
 ## 1100.0.15
 
 ### Patch Changes

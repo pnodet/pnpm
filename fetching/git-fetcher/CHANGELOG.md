@@ -1,5 +1,11 @@
 # @pnpm/git-fetcher
 
+## 1101.0.5
+
+### Patch Changes
+
+- @pnpm/exec.prepare-package@1100.0.9
+
 ## 1101.0.4
 
 ### Patch Changes

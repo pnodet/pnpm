@@ -1,11 +1,15 @@
 audit-signatures
+check-deps-status-skip-engine-check
 fix-11529-view-published-time
 fix-11561-publish-web-auth-proxy
 fix-11587-global-isolated-per-arg
+fix-named-registry-vs-local-resolver
 gh-packages-prefix
 honest-moose-grin
 no-runtime-flag
 pnpm-bugs-command
 pnpm-owner-command
 runtime-set-workspace-root
+split-local-resolver
+update-cmd-shim-9-0-3
 version-exit-finishes-workers

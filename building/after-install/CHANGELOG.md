@@ -1,5 +1,14 @@
 # @pnpm/building.after-install
 
+## 1101.0.11
+
+### Patch Changes
+
+- Updated dependencies [b4f8f47]
+  - @pnpm/bins.linker@1100.0.5
+  - @pnpm/exec.lifecycle@1100.0.9
+  - @pnpm/store.connection-manager@1100.1.1
+
 ## 1101.0.10
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @pnpm/building.during-install
 
+## 1101.0.9
+
+### Patch Changes
+
+- Updated dependencies [b4f8f47]
+  - @pnpm/bins.linker@1100.0.5
+  - @pnpm/exec.lifecycle@1100.0.9
+
 ## 1101.0.8
 
 ### Patch Changes

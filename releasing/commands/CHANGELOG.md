@@ -1,5 +1,13 @@
 # @pnpm/releasing.commands
 
+## 1100.2.13
+
+### Patch Changes
+
+- @pnpm/installing.commands@1100.2.1
+- @pnpm/installing.client@1100.0.14
+- @pnpm/exec.lifecycle@1100.0.9
+
 ## 1100.2.12
 
 ### Patch Changes

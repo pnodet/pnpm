@@ -1,5 +1,18 @@
 # @pnpm/engine.pm.commands
 
+## 1101.1.11
+
+### Patch Changes
+
+- Updated dependencies [b4f8f47]
+  - @pnpm/bins.linker@1100.0.5
+  - @pnpm/installing.client@1100.0.14
+  - @pnpm/global.commands@1100.0.16
+  - @pnpm/installing.deps-restorer@1101.1.1
+  - @pnpm/store.connection-manager@1100.1.1
+  - @pnpm/store.controller@1101.0.5
+  - @pnpm/installing.env-installer@1101.0.8
+
 ## 1101.1.10
 
 ### Patch Changes

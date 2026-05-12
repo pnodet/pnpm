@@ -1,5 +1,11 @@
 # @pnpm/local-resolver
 
+## 1101.0.0
+
+### Major Changes
+
+- 3ab403a: Replaced the `resolveFromLocal` export with two narrower exports: `resolveFromLocalScheme` (handles `file:`/`link:`/`workspace:`/`path:`) and `resolveFromLocalPath` (path-shape match by tarball extension or filesystem characters).
+
 ## 1100.0.6
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @pnpm/hoist
 
+## 1100.0.5
+
+### Patch Changes
+
+- Updated dependencies [b4f8f47]
+  - @pnpm/bins.linker@1100.0.5
+
 ## 1100.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @pnpm/outdated
 
+## 1100.0.14
+
+### Patch Changes
+
+- @pnpm/installing.client@1100.0.14
+
 ## 1100.0.13
 
 ### Patch Changes

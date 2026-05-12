@@ -1,5 +1,18 @@
 # @pnpm/core
 
+## 1101.1.1
+
+### Patch Changes
+
+- Updated dependencies [b4f8f47]
+  - @pnpm/bins.linker@1100.0.5
+  - @pnpm/building.after-install@1101.0.11
+  - @pnpm/building.during-install@1101.0.9
+  - @pnpm/exec.lifecycle@1100.0.9
+  - @pnpm/installing.deps-restorer@1101.1.1
+  - @pnpm/installing.linking.hoist@1100.0.5
+  - @pnpm/installing.package-requester@1101.0.5
+
 ## 1101.1.0
 
 ### Minor Changes
