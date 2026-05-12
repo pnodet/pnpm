@@ -29,8 +29,14 @@ export function convertEnginesRuntimeToDependencies (
     if ('webcontainer' in process.versions) {
       globalWarn(`Installation of ${runtimeName} versions is not supported in WebContainer`)
     } else {
-      manifest[dependenciesFieldName] ??= {}
-      manifest[dependenciesFieldName]![runtimeName] = `runtime:${runtime.version}`
+      // Inline barrier — CodeQL js/prototype-polluting-assignment recognizes
+      // the literal equality checks but not the equivalent helper call on this
+      // code path. Unreachable for the current RUNTIME_NAMES, but keeps the
+      // dynamic assignment safe if a future entry is added.
+      const key: string = runtimeName
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue
+      const deps = (manifest[dependenciesFieldName] ??= {})
+      deps[runtimeName] = `runtime:${runtime.version}`
     }
   }
 }
