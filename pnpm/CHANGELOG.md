@@ -15,7 +15,7 @@
     work: https://npm.work.example.com/
   ```
 
-  With this, `work:@corp/lib@^2.0.0` resolves against `https://npm.work.example.com/`. [#8941](https://github.com/pnpm/pnpm/issues/8941).
+  With this, `work:@corp/lib@^2.0.0` resolves against `https://npm.work.example.com/`. [#11324](https://github.com/pnpm/pnpm/issues/11324).
 
 - Allow setting sbom spec version using `--sbom-spec-version` [#11389](https://github.com/pnpm/pnpm/pull/11389).
 - Add `--no-runtime` flag (config: `runtime=false`) to skip installing runtime entries (e.g. Node.js downloaded via `devEngines.runtime`) without modifying the lockfile. The lockfile keeps the runtime entry so frozen-lockfile validation still passes; only the runtime fetch and `.bin` linking are skipped. Useful in CI matrices where the runtime is provisioned externally (e.g. via `pnpm runtime -g set node <version>`) before `pnpm install` runs.
