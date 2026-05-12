@@ -29,14 +29,17 @@ export function convertEnginesRuntimeToDependencies (
     if ('webcontainer' in process.versions) {
       globalWarn(`Installation of ${runtimeName} versions is not supported in WebContainer`)
     } else {
-      // Inline barrier — CodeQL js/prototype-polluting-assignment recognizes
-      // the literal equality checks but not the equivalent helper call on this
-      // code path. Unreachable for the current RUNTIME_NAMES, but keeps the
-      // dynamic assignment safe if a future entry is added.
-      const key: string = runtimeName
-      if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue
       const deps = (manifest[dependenciesFieldName] ??= {})
-      deps[runtimeName] = `runtime:${runtime.version}`
+      // Use Object.defineProperty so a future RUNTIME_NAMES entry that
+      // happens to match an inherited property name (`__proto__`,
+      // `constructor`, `prototype`) becomes a regular own data property
+      // instead of altering Object.prototype.
+      Object.defineProperty(deps, runtimeName, {
+        value: `runtime:${runtime.version}`,
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      })
     }
   }
 }
