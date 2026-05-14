@@ -1,18 +1,21 @@
 # Run cargo-llvm-cov and upload to codecov.io
 
-name: Code Coverage
+name: Pacquet Code Coverage
+
+permissions:
+  contents: read
 
 on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
     paths:
-      - '**.rs'
+      - 'pacquet/**/*.rs'
   push:
     branches:
       - main
     paths:
-      - '**.rs'
+      - 'pacquet/**/*.rs'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -41,13 +44,9 @@ jobs:
         run: rustup component add llvm-tools-preview
 
       - name: Install pnpm (for compatibility check)
-        uses: pnpm/action-setup@v6
+        uses: pnpm/setup@b1cac37306e39c21283b9dd6cb0ac288fb35ba6b
         with:
-          # Pacquet needs a pnpm that writes lockfile v9. Stable pnpm 11 isn't released yet,
-          # so pin the latest RC; switch to `11` once stable ships.
-          version: 11.0.0-rc.5
-          run_install: false
-          standalone: true
+          install: false
 
       - name: Cache pnpm
         uses: actions/cache@v5

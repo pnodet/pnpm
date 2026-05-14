@@ -1,13 +1,13 @@
 name: Release Pacquet
 
-# When main is pushed and npm/pacquet/package.json has been changed,
+# When main is pushed and pacquet/npm/pacquet/package.json has been changed,
 # trigger the jobs after the ci workflow has been passed.
 on:
   push:
     branches:
       - main
     paths:
-      - npm/pacquet/package.json # Please only commit this file, so we don't need to wait for test CI to pass.
+      - pacquet/npm/pacquet/package.json # Please only commit this file, so we don't need to wait for test CI to pass.
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -29,7 +29,7 @@ jobs:
         with:
           static-checking: localIsNew
           file-url: https://unpkg.com/pacquet@latest/package.json
-          file-name: npm/pacquet/package.json
+          file-name: pacquet/npm/pacquet/package.json
 
       - name: Set version name
         if: steps.version.outputs.changed == 'true'
@@ -139,18 +139,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
+      - name: Install pnpm and Node
+        uses: pnpm/setup@b1cac37306e39c21283b9dd6cb0ac288fb35ba6b
         with:
-          # Match the version pinned in CI; bump together. Pacquet needs a
-          # pnpm that writes lockfile v9, so pin the latest 11.x RC until
-          # stable ships.
-          version: 11.0.0-rc.5
-          standalone: true
-
-      - name: Setup Node
-        run: pnpm runtime -g set node 22
-        timeout-minutes: 2
+          runtime: node@22
+          install: false
 
       - name: Download Artifacts
         uses: actions/download-artifact@v8
@@ -168,9 +161,9 @@ jobs:
 
       - name: Generate npm packages
         run: |
-          node npm/pacquet/scripts/generate-packages.mjs
-          cat npm/pacquet/package.json
-          for package in npm/pacquet*; do cat $package/package.json ; echo ; done
+          node pacquet/npm/pacquet/scripts/generate-packages.mjs
+          cat pacquet/npm/pacquet/package.json
+          for package in pacquet/npm/pacquet*; do cat $package/package.json ; echo ; done
 
       - name: Publish npm packages as latest
         # Auth is via npm's trusted publishing: `id-token: write` above grants
@@ -179,7 +172,7 @@ jobs:
         # token to a provenance attestation on each tarball.
         # The trailing slash on $package/ changes it to publishing the directory.
         run: |
-          for package in npm/pacquet*; do
+          for package in pacquet/npm/pacquet*; do
             pnpm publish "$package/" --tag latest --access public --provenance --no-git-checks
           done
 

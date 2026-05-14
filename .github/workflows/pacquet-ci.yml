@@ -1,16 +1,45 @@
-name: CI
+name: Pacquet CI
+
+permissions:
+  contents: read
 
 on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
-    paths-ignore:
-      - '**/*.md'
+    paths:
+      - 'pacquet/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'rustfmt.toml'
+      - 'deny.toml'
+      - 'dylint.toml'
+      - '.taplo.toml'
+      - '.typos.toml'
+      - 'justfile'
+      - '.cargo/**'
+      - '.github/actions/rustup/**'
+      - '.github/actions/binstall/**'
+      - '.github/workflows/pacquet-ci.yml'
   push:
     branches:
       - main
-    paths-ignore:
-      - '**/*.md'
+    paths:
+      - 'pacquet/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'rustfmt.toml'
+      - 'deny.toml'
+      - 'dylint.toml'
+      - '.taplo.toml'
+      - '.typos.toml'
+      - 'justfile'
+      - '.cargo/**'
+      - '.github/actions/rustup/**'
+      - '.github/actions/binstall/**'
+      - '.github/workflows/pacquet-ci.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
@@ -37,13 +66,9 @@ jobs:
           save-cache: ${{ github.ref_name == 'main' }}
 
       - name: Install pnpm (for compatibility check)
-        uses: pnpm/action-setup@v6
+        uses: pnpm/setup@b1cac37306e39c21283b9dd6cb0ac288fb35ba6b
         with:
-          # Pacquet needs a pnpm that writes lockfile v9. Stable pnpm 11 isn't released yet,
-          # so pin the latest RC; switch to `11` once stable ships.
-          version: 11.0.0-rc.5
-          run_install: false
-          standalone: true
+          install: false
 
       - name: Cache pnpm
         uses: actions/cache@v5
@@ -105,7 +130,7 @@ jobs:
 
       - uses: crate-ci/typos@v1.46.1
         with:
-          files: .
+          files: pacquet
 
   deny:
     name: Cargo Deny
