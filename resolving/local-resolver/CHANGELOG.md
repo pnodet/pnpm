@@ -1,5 +1,12 @@
 # @pnpm/local-resolver
 
+## 1101.0.1
+
+### Patch Changes
+
+- @pnpm/workspace.project-manifest-reader@1100.0.5
+- @pnpm/crypto.hash@1100.0.1
+
 ## 1101.0.0
 
 ### Major Changes

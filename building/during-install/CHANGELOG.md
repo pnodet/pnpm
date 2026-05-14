@@ -1,5 +1,18 @@
 # @pnpm/building.during-install
 
+## 1101.0.10
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/bins.linker@1100.0.6
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/exec.lifecycle@1100.0.10
+  - @pnpm/worker@1100.1.5
+  - @pnpm/fs.hard-link-dir@1100.0.1
+  - @pnpm/patching.apply-patch@1100.0.0
+
 ## 1101.0.9
 
 ### Patch Changes

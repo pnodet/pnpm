@@ -1,5 +1,12 @@
 # @pnpm/plugin-commands-init
 
+## 1100.1.11
+
+### Patch Changes
+
+- @pnpm/cli.utils@1101.0.4
+- @pnpm/config.reader@1101.3.1
+
 ## 1100.1.10
 
 ### Patch Changes

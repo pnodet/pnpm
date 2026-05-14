@@ -1,5 +1,15 @@
 # @pnpm/config
 
+## 1101.3.1
+
+### Patch Changes
+
+- Updated dependencies [9cad827]
+- Updated dependencies [50b33c1]
+  - @pnpm/pkg-manifest.utils@1100.1.3
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/hooks.pnpmfile@1100.0.8
+
 ## 1101.3.0
 
 ### Minor Changes

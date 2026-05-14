@@ -1,5 +1,22 @@
 # @pnpm/plugin-commands-script-runners
 
+## 1100.1.7
+
+### Patch Changes
+
+- Updated dependencies [180aee9]
+  - @pnpm/deps.status@1100.0.15
+  - @pnpm/installing.commands@1100.2.2
+  - @pnpm/cli.utils@1101.0.4
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/engine.runtime.commands@1100.0.14
+  - @pnpm/installing.client@1100.0.15
+  - @pnpm/building.commands@1100.0.17
+  - @pnpm/exec.lifecycle@1100.0.10
+  - @pnpm/workspace.injected-deps-syncer@1100.0.11
+  - @pnpm/crypto.hash@1100.0.1
+
 ## 1100.1.6
 
 ### Patch Changes

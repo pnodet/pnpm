@@ -1,5 +1,12 @@
 # @pnpm/modules-cleaner
 
+## 1100.1.1
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/store.controller-types@1100.0.7
+
 ## 1100.1.0
 
 ### Minor Changes

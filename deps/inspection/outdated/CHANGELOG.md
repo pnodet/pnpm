@@ -1,5 +1,19 @@
 # @pnpm/outdated
 
+## 1100.0.15
+
+### Patch Changes
+
+- Updated dependencies [9cad827]
+- Updated dependencies [50b33c1]
+- Updated dependencies [e526f89]
+- Updated dependencies [180aee9]
+- Updated dependencies [c2c2890]
+  - @pnpm/pkg-manifest.utils@1100.1.3
+  - @pnpm/resolving.npm-resolver@1101.1.1
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/installing.client@1100.0.15
+
 ## 1100.0.14
 
 ### Patch Changes

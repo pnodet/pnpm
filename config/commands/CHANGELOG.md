@@ -1,5 +1,13 @@
 # @pnpm/plugin-commands-config
 
+## 1100.0.13
+
+### Patch Changes
+
+- @pnpm/cli.utils@1101.0.4
+- @pnpm/config.reader@1101.3.1
+- @pnpm/workspace.workspace-manifest-writer@1100.0.7
+
 ## 1100.0.12
 
 ### Patch Changes

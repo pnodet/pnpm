@@ -1,5 +1,17 @@
 # @pnpm/package-store
 
+## 1101.0.6
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/installing.package-requester@1101.0.6
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/store.cafs@1100.1.4
+  - @pnpm/store.create-cafs-store@1100.0.7
+  - @pnpm/worker@1100.1.5
+  - @pnpm/crypto.hash@1100.0.1
+
 ## 1101.0.5
 
 ### Patch Changes

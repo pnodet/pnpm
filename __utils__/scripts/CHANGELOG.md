@@ -1,5 +1,11 @@
 # @pnpm/scripts
 
+## 1100.0.7
+
+### Patch Changes
+
+- @pnpm/workspace.projects-reader@1101.0.4
+
 ## 1100.0.6
 
 ### Patch Changes

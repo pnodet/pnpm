@@ -1,5 +1,20 @@
 # @pnpm/deps.compliance.commands
 
+## 1101.2.2
+
+### Patch Changes
+
+- Updated dependencies [180aee9]
+  - @pnpm/installing.commands@1100.2.2
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/cli.utils@1101.0.4
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/deps.compliance.audit@1101.0.7
+  - @pnpm/deps.security.signatures@1101.1.1
+  - @pnpm/deps.compliance.license-scanner@1100.0.11
+  - @pnpm/deps.compliance.sbom@1100.1.1
+
 ## 1101.2.1
 
 ### Patch Changes

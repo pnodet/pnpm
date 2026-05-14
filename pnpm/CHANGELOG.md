@@ -1,5 +1,24 @@
 # pnpm
 
+## 11.1.2
+
+### Patch Changes
+
+- `convertEnginesRuntimeToDependencies`: switch the runtime-dependency write to `Object.defineProperty` so the CodeQL `js/prototype-polluting-assignment` rule treats the assignment as safe regardless of the property name (follow-up to [#11609](https://github.com/pnpm/pnpm/pull/11609)).
+- Address CodeQL static-analysis findings: guard manifest dependency writes against prototype-polluting keys (`__proto__`, `constructor`, `prototype`), and replace a potentially super-linear semver-detection regex in registry 404 hints with an O(n) parser.
+- Strip `sec-fetch-*` headers from outgoing HTTP requests. These headers are automatically added by undici's `fetch()` implementation per the Fetch spec but cause Azure DevOps Artifacts to return HTTP 400 for uncached upstream packages, as ADO interprets them as browser requests [#11572](https://github.com/pnpm/pnpm/issues/11572).
+- Fix `minimumReleaseAge` handling for cached abbreviated metadata.
+
+  The version-spec cache fast path no longer rethrows `ERR_PNPM_MISSING_TIME` under `strictPublishedByCheck`; it now falls through to the registry-fetch path, consistent with the adjacent mtime-gated cache block.
+
+  When the registry returns 304 Not Modified for a package whose cached metadata is abbreviated (no per-version `time`), pnpm now re-fetches with `fullMetadata: true` if `minimumReleaseAge` is active and the package was modified after the cutoff. The upgraded metadata is persisted to disk so subsequent installs don't repeat the fetch. Previously the abbreviated meta was used as-is and the maturity check fell back to its warn-and-skip path, silently bypassing the quarantine and emitting a misleading "metadata is missing the time field" warning.
+
+  Closes #11619.
+
+- Fix `pnpm upgrade --interactive --latest -r` not respecting named catalog groups. Previously, upgrading a dependency using a named catalog (e.g. `"catalog:foo"`) would incorrectly rewrite `package.json` to `"catalog:"` and place the updated version in the default catalog instead of the named one [#10115](https://github.com/pnpm/pnpm/issues/10115).
+- Fixed `optimisticRepeatInstall` skipping `pnpm-lock.yaml` merge conflict resolution when the existing `node_modules` state appears up to date.
+- Fix `minimumReleaseAge` / `resolutionMode: time-based` installs failing on lockfiles whose `time:` block is missing entries. The npm-resolver's peek-from-store fast path now surfaces `publishedAt` from the lockfile rather than discarding it, and falls through to a registry metadata fetch when the time-based cutoff can't be computed from the data on hand.
+
 ## 11.1.1
 
 ### Patch Changes

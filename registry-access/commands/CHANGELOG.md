@@ -1,5 +1,14 @@
 # @pnpm/registry-access.commands
 
+## 1100.2.11
+
+### Patch Changes
+
+- Updated dependencies [18a464f]
+  - @pnpm/network.fetch@1100.0.4
+  - @pnpm/cli.utils@1101.0.4
+  - @pnpm/config.reader@1101.3.1
+
 ## 1100.2.10
 
 ### Patch Changes

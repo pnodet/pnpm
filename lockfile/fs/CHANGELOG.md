@@ -1,5 +1,11 @@
 # @pnpm/lockfile-file
 
+## 1100.0.8
+
+### Patch Changes
+
+- 180aee9: Fixed `optimisticRepeatInstall` skipping `pnpm-lock.yaml` merge conflict resolution when the existing `node_modules` state appears up to date.
+
 ## 1100.0.7
 
 ### Patch Changes

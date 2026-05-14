@@ -1,5 +1,18 @@
 # @pnpm/global.commands
 
+## 1100.0.17
+
+### Patch Changes
+
+- Updated dependencies [50b33c1]
+- Updated dependencies [8c06d1a]
+  - @pnpm/installing.deps-installer@1101.1.2
+  - @pnpm/deps.inspection.list@1100.0.10
+  - @pnpm/bins.linker@1100.0.6
+  - @pnpm/cli.utils@1101.0.4
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/store.connection-manager@1100.1.2
+
 ## 1100.0.16
 
 ### Patch Changes

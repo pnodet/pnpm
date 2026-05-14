@@ -1,5 +1,38 @@
 # @pnpm/core
 
+## 1101.1.2
+
+### Patch Changes
+
+- 50b33c1: Address CodeQL static-analysis findings: guard manifest dependency writes against prototype-polluting keys (`__proto__`, `constructor`, `prototype`), and replace a potentially super-linear semver-detection regex in registry 404 hints with an O(n) parser.
+- 8c06d1a: Fix `pnpm upgrade --interactive --latest -r` not respecting named catalog groups. Previously, upgrading a dependency using a named catalog (e.g. `"catalog:foo"`) would incorrectly rewrite `package.json` to `"catalog:"` and place the updated version in the default catalog instead of the named one [#10115](https://github.com/pnpm/pnpm/issues/10115).
+- Updated dependencies [9cad827]
+- Updated dependencies [50b33c1]
+- Updated dependencies [180aee9]
+- Updated dependencies [c2c2890]
+  - @pnpm/pkg-manifest.utils@1100.1.3
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/installing.deps-resolver@1100.0.10
+  - @pnpm/installing.package-requester@1101.0.6
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/bins.linker@1100.0.6
+  - @pnpm/lockfile.preferred-versions@1100.0.9
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/installing.context@1100.0.10
+  - @pnpm/installing.deps-restorer@1101.1.2
+  - @pnpm/lockfile.to-pnp@1100.0.8
+  - @pnpm/building.after-install@1101.0.12
+  - @pnpm/building.during-install@1101.0.10
+  - @pnpm/exec.lifecycle@1100.0.10
+  - @pnpm/installing.linking.modules-cleaner@1100.1.1
+  - @pnpm/installing.linking.hoist@1100.0.6
+  - @pnpm/lockfile.verification@1100.0.10
+  - @pnpm/agent.client@1.0.5
+  - @pnpm/worker@1100.1.5
+  - @pnpm/lockfile.settings-checker@1100.0.10
+  - @pnpm/crypto.hash@1100.0.1
+  - @pnpm/fs.symlink-dependency@1100.0.3
+
 ## 1101.1.1
 
 ### Patch Changes

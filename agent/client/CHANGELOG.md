@@ -1,5 +1,12 @@
 # @pnpm/agent.client
 
+## 1.0.5
+
+### Patch Changes
+
+- @pnpm/store.cafs@1100.1.4
+- @pnpm/worker@1100.1.5
+
 ## 1.0.4
 
 ### Patch Changes

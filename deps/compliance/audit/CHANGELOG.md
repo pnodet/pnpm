@@ -1,5 +1,14 @@
 # @pnpm/audit
 
+## 1101.0.7
+
+### Patch Changes
+
+- Updated dependencies [18a464f]
+- Updated dependencies [180aee9]
+  - @pnpm/network.fetch@1100.0.4
+  - @pnpm/lockfile.fs@1100.0.8
+
 ## 1101.0.6
 
 ### Patch Changes

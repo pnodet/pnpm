@@ -1,5 +1,13 @@
 # @pnpm/read-project-manifest
 
+## 1100.0.5
+
+### Patch Changes
+
+- Updated dependencies [9cad827]
+- Updated dependencies [50b33c1]
+  - @pnpm/pkg-manifest.utils@1100.1.3
+
 ## 1100.0.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @pnpm/list
 
+## 1100.0.10
+
+### Patch Changes
+
+- 50b33c1: Address CodeQL static-analysis findings: guard manifest dependency writes against prototype-polluting keys (`__proto__`, `constructor`, `prototype`), and replace a potentially super-linear semver-detection regex in registry 404 hints with an O(n) parser.
+- Updated dependencies [180aee9]
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/deps.inspection.tree-builder@1100.0.9
+
 ## 1100.0.9
 
 ### Patch Changes

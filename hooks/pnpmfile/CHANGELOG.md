@@ -1,5 +1,13 @@
 # @pnpm/pnpmfile
 
+## 1100.0.8
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/crypto.hash@1100.0.1
+
 ## 1100.0.7
 
 ### Patch Changes

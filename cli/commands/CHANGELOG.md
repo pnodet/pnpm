@@ -1,5 +1,13 @@
 # @pnpm/cli.commands
 
+## 1100.0.12
+
+### Patch Changes
+
+- @pnpm/cli.utils@1101.0.4
+- @pnpm/config.reader@1101.3.1
+- @pnpm/workspace.projects-reader@1101.0.4
+
 ## 1100.0.11
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @pnpm/directory-fetcher
 
+## 1100.0.9
+
+### Patch Changes
+
+- @pnpm/workspace.project-manifest-reader@1100.0.5
+
 ## 1100.0.8
 
 ### Patch Changes

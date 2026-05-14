@@ -1,5 +1,19 @@
 # @pnpm/deps.status
 
+## 1100.0.15
+
+### Patch Changes
+
+- 180aee9: Fixed `optimisticRepeatInstall` skipping `pnpm-lock.yaml` merge conflict resolution when the existing `node_modules` state appears up to date.
+- Updated dependencies [180aee9]
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/installing.context@1100.0.10
+  - @pnpm/workspace.projects-reader@1101.0.4
+  - @pnpm/workspace.state@1100.0.12
+  - @pnpm/lockfile.verification@1100.0.10
+  - @pnpm/lockfile.settings-checker@1100.0.10
+
 ## 1100.0.14
 
 ### Patch Changes

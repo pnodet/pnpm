@@ -1,5 +1,18 @@
 # @pnpm/store.commands
 
+## 1100.0.16
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/cli.utils@1101.0.4
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/installing.client@1100.0.15
+  - @pnpm/installing.context@1100.0.10
+  - @pnpm/store.cafs@1100.1.4
+  - @pnpm/store.connection-manager@1100.1.2
+
 ## 1100.0.15
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @pnpm/headless
 
+## 1101.1.2
+
+### Patch Changes
+
+- Updated dependencies [180aee9]
+- Updated dependencies [c2c2890]
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/installing.package-requester@1101.0.6
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/bins.linker@1100.0.6
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/deps.graph-builder@1100.0.9
+  - @pnpm/installing.linking.real-hoist@1100.0.7
+  - @pnpm/lockfile.to-pnp@1100.0.8
+  - @pnpm/building.during-install@1101.0.10
+  - @pnpm/exec.lifecycle@1100.0.10
+  - @pnpm/installing.linking.modules-cleaner@1100.1.1
+  - @pnpm/installing.linking.hoist@1100.0.6
+  - @pnpm/worker@1100.1.5
+  - @pnpm/fs.symlink-dependency@1100.0.3
+
 ## 1101.1.1
 
 ### Patch Changes

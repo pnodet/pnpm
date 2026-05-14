@@ -1,5 +1,19 @@
 # @pnpm/building.after-install
 
+## 1101.0.12
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/store.controller-types@1100.0.7
+  - @pnpm/bins.linker@1100.0.6
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/installing.context@1100.0.10
+  - @pnpm/exec.lifecycle@1100.0.10
+  - @pnpm/store.cafs@1100.1.4
+  - @pnpm/store.connection-manager@1100.1.2
+  - @pnpm/worker@1100.1.5
+
 ## 1101.0.11
 
 ### Patch Changes

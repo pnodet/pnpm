@@ -1,5 +1,14 @@
 # @pnpm/deps.graph-builder
 
+## 1100.0.9
+
+### Patch Changes
+
+- Updated dependencies [180aee9]
+- Updated dependencies [c2c2890]
+  - @pnpm/lockfile.fs@1100.0.8
+  - @pnpm/store.controller-types@1100.0.7
+
 ## 1100.0.8
 
 ### Patch Changes

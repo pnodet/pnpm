@@ -1,5 +1,12 @@
 # @pnpm/store.cafs
 
+## 1100.1.4
+
+### Patch Changes
+
+- Updated dependencies [c2c2890]
+  - @pnpm/store.controller-types@1100.0.7
+
 ## 1100.1.3
 
 ### Patch Changes

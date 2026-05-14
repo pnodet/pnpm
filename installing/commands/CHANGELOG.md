@@ -1,5 +1,34 @@
 # @pnpm/plugin-commands-installation
 
+## 1100.2.2
+
+### Patch Changes
+
+- 180aee9: Fixed `optimisticRepeatInstall` skipping `pnpm-lock.yaml` merge conflict resolution when the existing `node_modules` state appears up to date.
+- Updated dependencies [9cad827]
+- Updated dependencies [50b33c1]
+- Updated dependencies [8c06d1a]
+- Updated dependencies [180aee9]
+  - @pnpm/pkg-manifest.utils@1100.1.3
+  - @pnpm/installing.deps-installer@1101.1.2
+  - @pnpm/deps.status@1100.0.15
+  - @pnpm/cli.utils@1101.0.4
+  - @pnpm/config.reader@1101.3.1
+  - @pnpm/deps.inspection.outdated@1100.0.15
+  - @pnpm/workspace.project-manifest-reader@1100.0.5
+  - @pnpm/global.commands@1100.0.17
+  - @pnpm/installing.env-installer@1101.0.9
+  - @pnpm/workspace.projects-graph@1100.0.8
+  - @pnpm/installing.context@1100.0.10
+  - @pnpm/store.controller@1101.0.6
+  - @pnpm/building.after-install@1101.0.12
+  - @pnpm/hooks.pnpmfile@1100.0.8
+  - @pnpm/workspace.projects-reader@1101.0.4
+  - @pnpm/store.connection-manager@1100.1.2
+  - @pnpm/workspace.state@1100.0.12
+  - @pnpm/workspace.projects-filter@1100.0.11
+  - @pnpm/workspace.workspace-manifest-writer@1100.0.7
+
 ## 1100.2.1
 
 ### Patch Changes
