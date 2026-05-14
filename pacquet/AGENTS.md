@@ -1,6 +1,8 @@
-# AGENTS.md
+# AGENTS.md (pacquet)
 
-Guidance for AI coding agents working in this repository.
+Guidance for AI coding agents working in `pacquet/`.
+
+**Read [`../AGENTS.md`](../AGENTS.md) first.** It covers the conventions that apply across the whole monorepo — GitHub PR workflow, signing agent-authored content, conventional commit messages, code-reuse philosophy, "never ignore test failures," and the PR-conflict resolution script. This file specializes those rules for pacquet's Rust code and adds pacquet-only ones.
 
 ## What this project is
 
@@ -11,35 +13,27 @@ are meant to match pnpm exactly.
 
 ## The cardinal rule
 
-**Any change in this repo must match how the same feature is implemented in
-`pnpm/pnpm` on the latest `main` branch.**
+**Any change in pacquet must match how the same feature is implemented in
+the TypeScript pnpm CLI (the workspaces outside `pacquet/`).** The inverse
+obligation — user-visible changes to the TypeScript pnpm CLI must also land
+in pacquet — lives in [`../AGENTS.md`](../AGENTS.md#keep-pnpm-and-pacquet-in-sync).
 
 Before writing code for a feature, bug fix, or behavior change:
 
-1. Find the equivalent code in `pnpm/pnpm` on `main`
-   (https://github.com/pnpm/pnpm). The TypeScript source lives under `pnpm/`
-   (workspaces such as `pnpm/lockfile/`, `pnpm/store/`, `pnpm/cli/`, etc.).
-   **Always confirm you are looking at the latest, most up-to-date version
-   of `main` before reading.** Local clones drift, and an outdated checkout
-   leads to porting decisions based on stale upstream behavior. If you have
-   a local clone, run `git fetch origin && git log -1 origin/main` and
-   compare the SHA against
-   `git ls-remote https://github.com/pnpm/pnpm.git refs/heads/main`
-   (or fetch the latest before reading). If you are reading on GitHub,
-   open the file from
-   `https://github.com/pnpm/pnpm/blob/main/...` (which always resolves to
-   the tip of `main`) rather than from a permalinked SHA you happened to
-   have on hand. The permalink rule below applies when *citing* upstream
-   code; while *researching* it, you want the freshest `main`.
-2. Read the upstream implementation — logic, edge cases, config resolution,
+1. Find the equivalent code in the TypeScript pnpm workspaces. They live
+   at the repo root — `pnpm/` (CLI entry), `pkg-manager/`, `resolving/`,
+   `lockfile/`, `store/`, `fetching/`, `config/`, `hooks/`, and so on.
+   See the repo-structure section in
+   [`../AGENTS.md`](../AGENTS.md#repository-structure) for the full list.
+2. Read the pnpm implementation — logic, edge cases, config resolution,
    error messages, file/lockfile formats, and existing tests.
 3. Port the behavior faithfully. Prefer structural similarity (same function
    decomposition, same names where reasonable) so future cross-referencing
    stays cheap.
 4. Do not invent behavior that pnpm does not have. Do not "fix" pnpm quirks
-   unless the same fix has landed upstream.
-5. If pnpm's `main` and this repo disagree, pnpm's `main` is the source of
-   truth — reconcile toward upstream, not away from it.
+   unless the same fix has landed in pnpm.
+5. If pnpm and pacquet disagree, pnpm is the source of truth — reconcile
+   toward pnpm, not away from it.
 6. **Log emissions are part of "match pnpm".** When porting a function
    that fires `pnpm:<channel>` events through `globalLogger` /
    `logger.debug(...)` / `streamParser.write(...)`, mirror the call
@@ -49,23 +43,24 @@ Before writing code for a feature, bug fix, or behavior change:
    in the style guide for the convention (channel mapping, threading
    `R: Reporter`, emit-site placement, recording-fake tests).
 
-If the upstream behavior is unclear or looks wrong, stop and ask the user
+If the pnpm behavior is unclear or looks wrong, stop and ask the user
 rather than guessing.
 
-When citing upstream code anywhere — code comments, doc comments, Markdown
-docs, PR descriptions, or commit messages — link to a specific commit SHA, not
+When citing code anywhere — code comments, doc comments, Markdown docs,
+PR descriptions, or commit messages — link to a specific commit SHA, not
 a branch name. Branch links such as `github.com/<owner>/<repo>/blob/main/...`
 or `.../tree/master/...` are *impermanent*: their target drifts as the branch
 moves and may eventually 404 if the file is renamed or deleted. Permanent
 links pin the commit (`github.com/<owner>/<repo>/blob/<sha>/...`) so the
-reference stays meaningful long after upstream changes. Use the **first 10
+reference stays meaningful long after the code changes. Use the **first 10
 hex characters** of the SHA — full 40-character SHAs make URLs unwieldy on
 narrow displays and in commit logs, and 10 characters is more than enough to
 disambiguate a commit in any real-world repository. Resolve the SHA with
-`git ls-remote https://github.com/<owner>/<repo>.git refs/heads/<branch>`
-(then take the first 10 characters) or by clicking "Copy permalink" (`y`) on
-GitHub and trimming the SHA segment. This rule applies to every GitHub
-repository, not only `pnpm/pnpm`.
+`git log -1 --format=%h` for an in-repo file, or `git ls-remote
+https://github.com/<owner>/<repo>.git refs/heads/<branch>` for an external
+repo (then take the first 10 characters), or by clicking "Copy permalink"
+(`y`) on GitHub and trimming the SHA segment. The rule applies to every
+GitHub repository, including this one.
 
 ## Porting branded string types
 
@@ -132,7 +127,7 @@ Rules when porting code that uses a branded string type:
 1. Follow the contributing guide in [`CONTRIBUTING.md`](./CONTRIBUTING.md), and **ALWAYS** double-check before committing. It covers commit message format, writing style, setup, and the automated checks to run before committing.
 2. Follow the code style guide in [`CODE_STYLE_GUIDE.md`](./CODE_STYLE_GUIDE.md), and **ALWAYS** double-check before committing. It covers code-level conventions not enforced by tooling: imports, modules, naming, ownership and borrowing, parameter type selection, trait bounds, pattern matching, `pipe-trait`, error handling, test layout, logging during tests, and cloning of `Arc` and `Rc`.
 
-## Repo layout
+## Repo layout (inside `pacquet/`)
 
 - `crates/` — library and binary crates that make up pacquet.
   - `cli`, `package-manager`, `package-manifest`, `lockfile`, `store-dir`,
@@ -147,7 +142,10 @@ Rules when porting code that uses a branded string type:
   and borrowing, trait bounds, pattern matching, `pipe-trait`, error
   handling, test layout, and `Arc`/`Rc` cloning. Read it before submitting
   code.
-- `justfile` — canonical commands (see below).
+
+The Rust workspace (`Cargo.toml`, `Cargo.lock`, `rust-toolchain.toml`,
+`justfile`, `.cargo/`, `.taplo.toml`, etc.) lives at the **repo root**, not
+inside `pacquet/`. Run `cargo` and `just` from the repo root.
 
 ## Commands
 
@@ -209,11 +207,6 @@ cargo nextest run -p pacquet-lockfile --test <file_stem>
 ```
 
 Run `just ready` (full suite) before handing the PR off.
-
-**Never ignore a test failure.** Do not dismiss a failing test as "pre-existing"
-or "unrelated to my change." Investigate every failure. If a test was already
-broken on `main`, fix it as part of your work rather than silently skipping it
-or treating the red as acceptable.
 
 ## Style
 
@@ -284,22 +277,16 @@ commit message, or the PR description so a reviewer can confirm the rewrite
 was warranted. If the rewrite is purely stylistic, raise it with the user as
 its own change rather than including it in an unrelated edit.
 
-## Code reuse and avoiding duplication
+## Code reuse (pacquet specifics)
 
-This is a small workspace, but it is still a workspace — duplication is still
-a risk, especially between crates that touch the filesystem, the store, or
-package manifests.
+The general "search before you write / extract shared code / prefer mature
+crates / keep deps at the right level" rules from
+[`../AGENTS.md`](../AGENTS.md#code-reuse-and-avoiding-duplication) apply.
+Pacquet-specific notes:
 
-- **Search before you write.** Before implementing any non-trivial helper,
-  grep the workspace for existing functions or utilities that do the same
-  or a similar thing. Shared helpers tend to live in `crates/fs`,
-  `crates/testing-utils`, and `crates/diagnostics`.
-- **Extract shared code.** If logic you need already exists in another crate
-  but isn't exported, refactor it into a shared crate (or move it to one of
-  the utility crates above) rather than copy-pasting.
-- **Prefer well-maintained crates over custom implementations.** Don't
-  reimplement what a mature crate already provides. Check whether the
-  workspace already depends on something suitable (see
+- Shared helpers tend to live in `crates/fs`, `crates/testing-utils`, and
+  `crates/diagnostics` — check there first.
+- Check whether the workspace already depends on something suitable (see
   `[workspace.dependencies]` in the root `Cargo.toml`) before adding a new
   dependency.
 - **Keep dependencies at the right level.** Add a new dependency to the
@@ -325,18 +312,13 @@ are part of the public contract, not implementation detail. See
 
 ### Commit messages
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/). Use a
-scope that names the crate or area being touched, matching the existing
-history (`git log --oneline` for examples). Common types:
+Conventional Commits applies (see
+[`../AGENTS.md`](../AGENTS.md#commit-messages) for the full type list). Use
+a scope that names the crate or area being touched, matching the existing
+history (`git log --oneline` for examples). Pacquet adds one type beyond the
+standard list:
 
-- `feat`: a new feature
-- `fix`: a bug fix
-- `perf`: a performance improvement
-- `refactor`: code change that neither fixes a bug nor adds a feature
-- `test`: adding or adjusting tests
-- `docs`: documentation only
-- `chore`: build tooling, CI, or auxiliary changes
-- `bench`: benchmark-only changes
+- `bench`: benchmark-only changes.
 
 Examples (from this repo's history):
 
@@ -345,25 +327,6 @@ fix(network): set explicit timeouts on default reqwest client
 feat(lockfile): support npm-alias dependencies in snapshots
 perf(store-dir): share one read-only StoreIndex across cache lookups
 ```
-
-## Working with GitHub PRs, issues, and comments
-
-- **Keep PR titles and descriptions current.** When pushing new changes to a
-  PR, review the title and description and update them if they no longer
-  accurately reflect what the PR does.
-- **Reply to and resolve review conversations.** Once a review comment has
-  been addressed, reply to the thread with a description of the resolution
-  including the commit hash that fixed it, then mark the conversation as
-  resolved.
-- **Sign all agent-authored content.** When posting a comment, creating an
-  issue, or opening a PR, append a footer to the message indicating that it
-  was written by an agent. The footer must include the name of the agent and
-  the name of the model used. Example:
-
-  ```markdown
-  ---
-  Written by an agent (Claude Code, claude-opus-4-7).
-  ```
 
 ## Things not to do
 
