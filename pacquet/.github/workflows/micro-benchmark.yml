@@ -1,0 +1,123 @@
+name: Micro-Benchmark
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '**/*.rs'
+      - '**/Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'tasks/micro-benchmark/fixtures/**'
+      - '.github/actions/**'
+      - '.github/workflows/micro-benchmark.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  benchmark:
+    strategy:
+      matrix:
+        os: [ubuntu-latest] # `macos-latest` is too unstable to be useful for benchmark, the variance is always huge.
+    name: Run benchmark on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Main Branch
+        uses: actions/checkout@v6
+        with:
+          ref: main # Checkout main first because the cache is warm
+
+      - name: Install Rust Toolchain
+        uses: ./.github/actions/rustup
+        with:
+          shared-key: micro-benchmark
+
+      - name: Compile
+        run: cargo build --release --bin=micro-benchmark
+
+      - name: Sleep for CPU cooldown
+        shell: bash
+        run: sleep 15s
+
+      - name: Run Bench on Main Branch
+        run: cargo run --bin=micro-benchmark --release -- --save-baseline main
+
+      - name: Checkout PR Branch
+        uses: actions/checkout@v6
+        with:
+          clean: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Compile
+        run: cargo build --release --bin=micro-benchmark
+
+      - name: Sleep for CPU cooldown
+        shell: bash
+        run: sleep 15s
+
+      - name: Run Bench on PR Branch
+        run: cargo run --bin=micro-benchmark --release -- --save-baseline pr
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v7
+        with:
+          name: benchmark-results-${{ matrix.os }}
+          path: ./target/criterion
+
+  benchmark-compare:
+    runs-on: ubuntu-latest
+    name: Compare Benchmarks
+    needs:
+      - benchmark
+
+    steps:
+      - name: Install critcmp
+        uses: taiki-e/install-action@v2
+        with:
+          tool: critcmp
+
+      - name: Linux | Download PR benchmark results
+        uses: actions/download-artifact@v8
+        with:
+          name: benchmark-results-ubuntu-latest
+          path: ./target/criterion
+
+      - name: Linux | Compare benchmark results
+        shell: bash
+        run: |
+          echo "## Micro-Benchmark Results" >> summary.md
+          echo "### Linux" >> summary.md
+          echo "\`\`\`" >> summary.md
+          critcmp main pr >> summary.md
+          echo "\`\`\`" >> summary.md
+          echo "" >> summary.md
+
+      - name: Linux | Cleanup benchmark results
+        run: rm -rf ./target/criterion
+
+      - name: Find Comment
+        # Check if the event is not triggered by a fork
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: peter-evans/find-comment@v4
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Micro-Benchmark Results
+
+      - name: Create or update comment
+        # Check if the event is not triggered by a fork
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          body-file: summary.md

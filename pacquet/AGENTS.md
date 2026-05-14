@@ -1,0 +1,381 @@
+# AGENTS.md
+
+Guidance for AI coding agents working in this repository.
+
+## What this project is
+
+`pacquet` is a port of the [pnpm](https://github.com/pnpm/pnpm) CLI from
+TypeScript to Rust. It is not a new package manager and not a reimagining —
+its behavior, flags, defaults, error codes, file formats, and directory layout
+are meant to match pnpm exactly.
+
+## The cardinal rule
+
+**Any change in this repo must match how the same feature is implemented in
+`pnpm/pnpm` on the latest `main` branch.**
+
+Before writing code for a feature, bug fix, or behavior change:
+
+1. Find the equivalent code in `pnpm/pnpm` on `main`
+   (https://github.com/pnpm/pnpm). The TypeScript source lives under `pnpm/`
+   (workspaces such as `pnpm/lockfile/`, `pnpm/store/`, `pnpm/cli/`, etc.).
+   **Always confirm you are looking at the latest, most up-to-date version
+   of `main` before reading.** Local clones drift, and an outdated checkout
+   leads to porting decisions based on stale upstream behavior. If you have
+   a local clone, run `git fetch origin && git log -1 origin/main` and
+   compare the SHA against
+   `git ls-remote https://github.com/pnpm/pnpm.git refs/heads/main`
+   (or fetch the latest before reading). If you are reading on GitHub,
+   open the file from
+   `https://github.com/pnpm/pnpm/blob/main/...` (which always resolves to
+   the tip of `main`) rather than from a permalinked SHA you happened to
+   have on hand. The permalink rule below applies when *citing* upstream
+   code; while *researching* it, you want the freshest `main`.
+2. Read the upstream implementation — logic, edge cases, config resolution,
+   error messages, file/lockfile formats, and existing tests.
+3. Port the behavior faithfully. Prefer structural similarity (same function
+   decomposition, same names where reasonable) so future cross-referencing
+   stays cheap.
+4. Do not invent behavior that pnpm does not have. Do not "fix" pnpm quirks
+   unless the same fix has landed upstream.
+5. If pnpm's `main` and this repo disagree, pnpm's `main` is the source of
+   truth — reconcile toward upstream, not away from it.
+6. **Log emissions are part of "match pnpm".** When porting a function
+   that fires `pnpm:<channel>` events through `globalLogger` /
+   `logger.debug(...)` / `streamParser.write(...)`, mirror the call
+   site, payload, and ordering so `@pnpm/cli.default-reporter` parses
+   pacquet's NDJSON the same way it parses pnpm's. See
+   [Reporter / log events](./CODE_STYLE_GUIDE.md#reporter--log-events)
+   in the style guide for the convention (channel mapping, threading
+   `R: Reporter`, emit-site placement, recording-fake tests).
+
+If the upstream behavior is unclear or looks wrong, stop and ask the user
+rather than guessing.
+
+When citing upstream code anywhere — code comments, doc comments, Markdown
+docs, PR descriptions, or commit messages — link to a specific commit SHA, not
+a branch name. Branch links such as `github.com/<owner>/<repo>/blob/main/...`
+or `.../tree/master/...` are *impermanent*: their target drifts as the branch
+moves and may eventually 404 if the file is renamed or deleted. Permanent
+links pin the commit (`github.com/<owner>/<repo>/blob/<sha>/...`) so the
+reference stays meaningful long after upstream changes. Use the **first 10
+hex characters** of the SHA — full 40-character SHAs make URLs unwieldy on
+narrow displays and in commit logs, and 10 characters is more than enough to
+disambiguate a commit in any real-world repository. Resolve the SHA with
+`git ls-remote https://github.com/<owner>/<repo>.git refs/heads/<branch>`
+(then take the first 10 characters) or by clicking "Copy permalink" (`y`) on
+GitHub and trimming the SHA segment. This rule applies to every GitHub
+repository, not only `pnpm/pnpm`.
+
+## Porting branded string types
+
+TypeScript pnpm leans on *branded* string types. A branded string is a
+plain string narrowed by a phantom property (for example,
+`type PkgName = string & { __brand: 'PkgName' }`), so the type system can
+track intent that the runtime cannot see. Some brands are stamped through
+a validating constructor. Others are minted with a bare `as` type assertion and
+have no runtime check at all. Pacquet must preserve that distinction,
+because it is part of the public contract pnpm exposes through manifest,
+lockfile, state, and config files.
+
+Rules when porting code that uses a branded string type:
+
+1. **Declare a newtype wrapper.** Do not collapse the brand into a plain
+   `String` or `&str`. Give the type its own struct so misuse is a type
+   error in pacquet too.
+2. **If upstream always validates before construction, validate too.**
+   When every brand site in pnpm runs through a checking factory, pacquet's
+   wrapper must construct only via `TryFrom<String>` and/or `FromStr`. Do
+   not provide an infallible public constructor that takes an arbitrary
+   string.
+3. **If upstream never validates, just brand for type-safety.** Some
+   upstream brands exist purely to keep the type system from confusing
+   one string slot with another. For example, a brand may exist to prevent
+   a `PkgId` from being passed where a `PkgName` is expected, even though
+   the value is never validated at runtime. In that case the Rust wrapper
+   should expose an infallible `From<String>` (and `From<&str>` when
+   convenient). The type-safety win is the whole point, and no validator
+   is needed.
+4. **If upstream occasionally constructs without validation, expose
+   `from_str_unchecked`.** When pnpm sometimes mints the brand via a bare
+   `as` assertion, skipping its validator, add a `from_str_unchecked` (or
+   similarly named) constructor on the Rust side so callers can opt into
+   the same unchecked path explicitly. Keep the validating constructor as
+   well. `from_str_unchecked` is the escape hatch, not the default.
+5. **Match upstream serde behavior.** If the branded type crosses a
+   JSON, YAML, or INI boundary (manifest files, lockfiles, state files,
+   config files, and similar), wire the wrapper into serde so the
+   validation policy survives serialization:
+   - `#[serde(try_from = "String")]` for deserialization, so
+     deserialized values go through the validator.
+   - `#[serde(into = "String")]` for serialization.
+   Use both when the type is round-tripped.
+6. **Derive simple conversions with `derive_more`.** When the conversion
+   impls implied by the rules above are mechanical (a one-liner that
+   wraps or unwraps the inner field), use `#[derive(derive_more::From)]`
+   and `#[derive(derive_more::Into)]` rather than handwriting an `impl`
+   block. Fall back to a manual `impl` only when the conversion needs
+   custom logic, such as validation or normalization. `derive_more` is
+   already a workspace dependency.
+7. **String-literal unions become `enum`s.** If upstream uses a string
+   literal type or a union of string literals (for example,
+   `'auto' | 'always' | 'never'`), model it as a Rust `enum`, not a
+   newtype wrapper. The set of valid values is closed, so encode that.
+8. **Template literal types are branded strings.** If upstream uses a
+   string template literal type (for example,
+   ``` `${string}@${string}` ```), treat it the same as a branded string
+   type. Use a newtype wrapper with the validation discipline from rules
+   2 through 5 above.
+
+## Follow the project guides
+
+1. Follow the contributing guide in [`CONTRIBUTING.md`](./CONTRIBUTING.md), and **ALWAYS** double-check before committing. It covers commit message format, writing style, setup, and the automated checks to run before committing.
+2. Follow the code style guide in [`CODE_STYLE_GUIDE.md`](./CODE_STYLE_GUIDE.md), and **ALWAYS** double-check before committing. It covers code-level conventions not enforced by tooling: imports, modules, naming, ownership and borrowing, parameter type selection, trait bounds, pattern matching, `pipe-trait`, error handling, test layout, logging during tests, and cloning of `Arc` and `Rc`.
+
+## Repo layout
+
+- `crates/` — library and binary crates that make up pacquet.
+  - `cli`, `package-manager`, `package-manifest`, `lockfile`, `store-dir`,
+    `tarball`, `registry`, `network`, `npmrc`, `fs`, `executor`,
+    `diagnostics`, `testing-utils`.
+- `tasks/` — developer tooling: `integrated-benchmark`, `micro-benchmark`,
+  `registry-mock`.
+- `CONTRIBUTING.md` — commit-message format, writing style, setup, and the
+  automated checks to run before submitting. Read it before submitting code.
+- `CODE_STYLE_GUIDE.md` — manual code-style conventions beyond what `cargo
+  fmt`, `taplo`, and clippy enforce: imports, modules, naming, ownership
+  and borrowing, trait bounds, pattern matching, `pipe-trait`, error
+  handling, test layout, and `Arc`/`Rc` cloning. Read it before submitting
+  code.
+- `justfile` — canonical commands (see below).
+
+## Commands
+
+Prefer `just` recipes when one fits; drop down to `cargo` / `taplo` / etc.
+directly when you need flags the recipe doesn't expose (e.g. filtering tests
+by crate or name — see below).
+
+- `just ready` — run the same checks CI runs (typos, fmt, check, test, lint).
+  Run this before declaring a task complete.
+- `just test` — `cargo nextest run`.
+- `just lint` — `cargo clippy --locked -- --deny warnings`.
+- `just check` — `cargo check --locked`.
+- `just fmt` — `cargo fmt` + `taplo format`.
+- `just cli -- <args>` — run the pacquet binary.
+- `just registry-mock <args>` — manage the mock registry used by tests.
+- `just integrated-benchmark <args>` — compare revisions or compare against
+  pnpm itself (see `CONTRIBUTING.md`).
+
+Warnings are errors (`--deny warnings` in lint). Do not silence them with
+`#[allow(...)]` unless there is a specific, justified reason.
+
+## Tests
+
+- Tests live alongside the code they exercise (standard Cargo layout) plus
+  integration tests under each crate's `tests/`. Shared test fixtures live
+  under `crates/testing-utils/src/fixtures/`.
+- Snapshot tests use `insta`. When an intentional change alters a snapshot,
+  review the diff carefully, then accept with `cargo insta review`. Never
+  accept snapshot changes blindly.
+- Some tests require the mocked registry. Start it with
+  `just registry-mock launch` if a test needs it.
+- When porting behavior from pnpm, port the relevant pnpm tests too (as Rust
+  tests) whenever they translate. Matching test coverage is the easiest way
+  to prove behavioral parity.
+- The active test-porting plan lives in
+  [`plans/TEST_PORTING.md`](./plans/TEST_PORTING.md). It enumerates the
+  upstream TypeScript tests scheduled to be ported (with file paths and line
+  numbers) and the conventions expected of the ports — `known_failures`
+  modules, `pacquet_testing_utils::allow_known_failure!` at the
+  not-yet-implemented boundary, and the practice of temporarily breaking the
+  subject under test to verify the ported test actually catches the
+  regression. Consult it before adding ported tests, and update its
+  checkboxes as items land.
+
+### Running tests narrowly
+
+Running the full suite is slow. While iterating, target what you're working
+on:
+
+```sh
+# One crate
+cargo nextest run -p pacquet-lockfile
+
+# One test by name substring
+cargo nextest run -p pacquet-lockfile <name_substring>
+
+# One integration test file
+cargo nextest run -p pacquet-lockfile --test <file_stem>
+```
+
+Run `just ready` (full suite) before handing the PR off.
+
+**Never ignore a test failure.** Do not dismiss a failing test as "pre-existing"
+or "unrelated to my change." Investigate every failure. If a test was already
+broken on `main`, fix it as part of your work rather than silently skipping it
+or treating the red as acceptable.
+
+## Style
+
+`CODE_STYLE_GUIDE.md` is the source of truth. Highlights:
+
+- Choose owned vs. borrowed parameters to minimize copies; widen to the most
+  encompassing type (`&Path` over `&PathBuf`, `&str` over `&String`) when it
+  doesn't force extra copies.
+- Prefer `Arc::clone(&x)` / `Rc::clone(&x)` over `x.clone()` for reference-
+  counted types, so the cost is visible at the call site.
+- Follow the test-logging guidance in the style guide — log before non-
+  `assert_eq!` assertions, `dbg!` complex structures, skip logging for simple
+  scalar `assert_eq!`.
+- Follow [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/naming.html)
+  for naming.
+- **No star imports inside module bodies.** Write `use super::{Foo, bar}`
+  instead of `use super::*;`, and the same for any other glob whose
+  target is a module you control. Two forms stay allowed: external-crate
+  preludes such as `use rayon::prelude::*;` and root-of-module
+  re-exports such as `pub use submodule::*;` in a `lib.rs`. See the
+  "No star imports" section in `CODE_STYLE_GUIDE.md`.
+
+### Preserve existing method chains
+
+When editing existing code, do not break a method chain (including `pipe-trait`
+`.pipe(...)` chains) into intermediate `let` bindings unless you can justify
+the rewrite. Valid justifications include a chain that fails to compile after
+your edit, a borrow checker rejection, a meaningful performance win from
+splitting it up, or any other concrete reason the chain cannot stay as it is.
+Refactoring for style alone is not a justification when the task is something
+else. Keep the surrounding code shape intact and confine your edits to what
+the task asks for.
+
+When the change you need can fit inside the existing chain, keep it there.
+For example, swapping a `PathBuf::from` allocation for a `Path::new` borrow:
+
+```diff
+ output
+     .stdout
+     .pipe(String::from_utf8)
+     .expect("convert stdout to UTF-8")
+     .trim_end()
+-    .pipe(PathBuf::from)
++    .pipe(Path::new)
+     .parent()
+     .expect("parent of root manifest")
+     .to_path_buf()
+```
+
+Do not flatten the chain just because you happen to be editing nearby:
+
+```diff
+-output
+-    .stdout
+-    .pipe(String::from_utf8)
+-    .expect("convert stdout to UTF-8")
+-    .trim_end()
+-    .pipe(PathBuf::from)
+-    .parent()
+-    .expect("parent of root manifest")
+-    .to_path_buf()
++let stdout = String::from_utf8(output.stdout).expect("convert stdout to UTF-8");
++Path::new(stdout.trim_end()).parent().expect("parent of root manifest").to_path_buf()
+```
+
+If you do need to break a chain, state the justification in your reply, the
+commit message, or the PR description so a reviewer can confirm the rewrite
+was warranted. If the rewrite is purely stylistic, raise it with the user as
+its own change rather than including it in an unrelated edit.
+
+## Code reuse and avoiding duplication
+
+This is a small workspace, but it is still a workspace — duplication is still
+a risk, especially between crates that touch the filesystem, the store, or
+package manifests.
+
+- **Search before you write.** Before implementing any non-trivial helper,
+  grep the workspace for existing functions or utilities that do the same
+  or a similar thing. Shared helpers tend to live in `crates/fs`,
+  `crates/testing-utils`, and `crates/diagnostics`.
+- **Extract shared code.** If logic you need already exists in another crate
+  but isn't exported, refactor it into a shared crate (or move it to one of
+  the utility crates above) rather than copy-pasting.
+- **Prefer well-maintained crates over custom implementations.** Don't
+  reimplement what a mature crate already provides. Check whether the
+  workspace already depends on something suitable (see
+  `[workspace.dependencies]` in the root `Cargo.toml`) before adding a new
+  dependency.
+- **Keep dependencies at the right level.** Add a new dependency to the
+  specific crate that needs it, not to the workspace root or to a shared
+  crate unless multiple crates actually depend on it.
+
+## Errors and diagnostics
+
+User-facing errors go through `miette` via the `pacquet-diagnostics` crate.
+Match pnpm's error codes and messages where pnpm defines them — error codes
+are part of the public contract, not implementation detail. See
+<https://pnpm.io/errors> for the canonical list.
+
+## Commit and PR hygiene
+
+- Keep commits focused. A bug fix commit should not also refactor or
+  reformat unrelated code.
+- Reference the upstream pnpm commit/PR you ported from, when applicable.
+- Run `just ready` before pushing.
+- The repo installs a pre-push hook via `just install-hooks` that runs
+  `rustfmt` and `taplo`. Make sure your environment can run cargo (the
+  hook needs it) before pushing.
+
+### Commit messages
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/). Use a
+scope that names the crate or area being touched, matching the existing
+history (`git log --oneline` for examples). Common types:
+
+- `feat`: a new feature
+- `fix`: a bug fix
+- `perf`: a performance improvement
+- `refactor`: code change that neither fixes a bug nor adds a feature
+- `test`: adding or adjusting tests
+- `docs`: documentation only
+- `chore`: build tooling, CI, or auxiliary changes
+- `bench`: benchmark-only changes
+
+Examples (from this repo's history):
+
+```
+fix(network): set explicit timeouts on default reqwest client
+feat(lockfile): support npm-alias dependencies in snapshots
+perf(store-dir): share one read-only StoreIndex across cache lookups
+```
+
+## Working with GitHub PRs, issues, and comments
+
+- **Keep PR titles and descriptions current.** When pushing new changes to a
+  PR, review the title and description and update them if they no longer
+  accurately reflect what the PR does.
+- **Reply to and resolve review conversations.** Once a review comment has
+  been addressed, reply to the thread with a description of the resolution
+  including the commit hash that fixed it, then mark the conversation as
+  resolved.
+- **Sign all agent-authored content.** When posting a comment, creating an
+  issue, or opening a PR, append a footer to the message indicating that it
+  was written by an agent. The footer must include the name of the agent and
+  the name of the model used. Example:
+
+  ```markdown
+  ---
+  Written by an agent (Claude Code, claude-opus-4-7).
+  ```
+
+## Things not to do
+
+- Do not add features, flags, or behaviors that pnpm does not have.
+- Do not change lockfile format, store layout, `.npmrc` semantics, or CLI
+  surface unless pnpm changed them first.
+- A dependency that is already declared in `[workspace.dependencies]` in the
+  root `Cargo.toml` may be added to any crate that needs it.
+- Do not add a dependency that is not already declared in the workspace
+  without an explicit human request. If there is a clear benefit and
+  justification for pulling in a new third-party crate, ask the human to
+  approve it and to add it to `[workspace.dependencies]` rather than adding
+  it yourself. Consult `deny.toml` when evaluating candidates.
+- Do not introduce `unsafe` without a clear justification and review.
+- Do not disable lints, tests, or CI checks to make a PR green.
